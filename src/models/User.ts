@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
     chatId: {
       type: String,
       unique: true,
-      sparse: true, // مهم
+      required: true
     },
 
   },
