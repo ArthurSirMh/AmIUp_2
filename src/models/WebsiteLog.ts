@@ -16,4 +16,4 @@ const websiteLogSchema = new mongoose.Schema(
     },
     {timestamps : true}
 )
-export const WebsiteLog = mongoose.model('Website',websiteLogSchema)
+export const WebsiteLog = mongoose.model('WebsiteLog',websiteLogSchema)

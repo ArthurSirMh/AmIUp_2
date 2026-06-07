@@ -18,4 +18,4 @@ const websiteSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-export const Website = mongoose.model('Website',websiteSchema)
+export const Website = mongoose.models.Website || mongoose.model("Website", websiteSchema);
