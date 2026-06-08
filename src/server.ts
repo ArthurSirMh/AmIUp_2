@@ -5,11 +5,11 @@ import { connectDB } from "./config/db";
 import { logger } from "./job/logger";
 connectDB()
 import { bot } from "./services/telegram.service";
+import { sendAlertEmail } from "./services/email.service";
 bot.start();
-
-let jobCanWork = 2
+let jobCanWork = 1
 let JobWork = 0
-cron.schedule("*/10 * * * * *", async () => {
+cron.schedule("*/30 * * * * *", async () => {
     if (JobWork >= jobCanWork) {
         console.log(`${jobCanWork} Logger is still running, skipping this run...`);
         return;

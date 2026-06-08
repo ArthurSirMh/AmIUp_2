@@ -9,7 +9,9 @@ export const createLog = async (websiteId: string, statusCode: number, responseT
             responseTime: responseTime,
             IsUp: isUp
         })
-    } catch { }
+    } catch(err) { 
+        console.log(`error in websitelog for create log   ${err}`)
+    }
 }
 export const getLog = async (user_id: string) => {
     try {

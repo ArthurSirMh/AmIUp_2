@@ -4,28 +4,36 @@ export const createUser = async (
   chatId: string,
   email: string
 ) => {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!regex.test(email)) {
+  try {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regex.test(email)) {
+      return {
+        success: false,
+        message: "Invalid email"
+      };
+    }
+    const checkExistUser = await User.findOne({ email });
+    if (checkExistUser) {
+      return {
+        success: false,
+        message: "User already exists"
+      };
+    }
+    const user = await User.create({
+      chatId,
+      email,
+    });
     return {
-      success: false,
-      message: "Invalid email"
+      success: true,
+      message: "Account Created"
     };
-  }
-  const checkExistUser = await User.findOne({ email });
-  if (checkExistUser) {
+  } catch (err) {
     return {
-      success: false,
-      message: "User already exists"
-    };
+      success : false,
+      message : 'create user faile'
+
+    }
   }
-  const user = await User.create({
-    chatId,
-    email,
-  });
-  return  {
-    success: true,
-    message: "Account Created"
-  };;
 };
 // export const createUser = async (
 //   req: Request,

@@ -14,7 +14,7 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^25.9.1",
-    "@types/nodemailer": "^8.0.0",
+    "@types/nodemailer": "^6.4.23",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
@@ -26,6 +26,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "grammy": "^1.43.0",
+    "mailtrap": "^4.6.0",
     "mongoose": "^8.24.0",
     "node-cron": "^4.2.1",
     "node-telegram-bot-api": "^0.66.0",

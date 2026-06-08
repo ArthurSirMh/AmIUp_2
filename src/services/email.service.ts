@@ -1,22 +1,28 @@
-import nodemailer from "nodemailer";
+const Nodemailer = require("nodemailer");
+const { MailtrapTransport } = require("mailtrap");
 
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-    },
-});
+export const sendAlertEmail = async (email:string,subject:string,message:string) => {
+    const TOKEN = process.env.EMAIL_TOKEN;
+    const transport = Nodemailer.createTransport(
+        MailtrapTransport({
+            token: TOKEN,
+        })
+    );
+    const sender = {
+        address: "amISup@demomailtrap.co",
+        name: "Am I Up",
+    };
+    const recipients = [
+        email,
+    ];
+    transport
+        .sendMail({
+            from: sender,
+            to: recipients,
+            subject: subject,
+            text: message,
+        })
+        .then(console.log, console.error);
+}
 
-export const sendEmail = async (
-    to: string,
-    subject: string,
-    text: string
-) => {
-    await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to,
-        subject,
-        text,
-    });
-};
+
