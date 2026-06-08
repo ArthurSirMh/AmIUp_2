@@ -71,13 +71,13 @@ export const getUrls = async () => {
 
 export const deleteUrl = async (url: string) => {
     try {
-        const urlExist = await Website.findOne({url})
+        const urlExist = await Website.findOne({ url })
         if (!urlExist) return {
             success: false,
             message: 'url not found',
             url: url
         }
-        const test = await Website.deleteOne({ url: url })
+            await Website.deleteOne({ url: url })
         return {
             success: " true",
             message: 'Delete url compeleted',
