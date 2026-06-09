@@ -3,7 +3,8 @@ import axios from "axios";
 import { Website } from "../models/Website";
 import { User } from "../models/User";
 import { WebsiteLog } from "../models/WebsiteLog";
-import { sendTelegramAlert } from "../jobs/monitoring.job";
+import { sendEmailAlert, sendTelegramAlert } from "../jobs/monitoring.job";
+import { url } from "node:inspector";
 
 export const monitoringService = async (websiteId: string) => {
     const website = await Website.findById(websiteId);
@@ -19,7 +20,7 @@ export const monitoringService = async (websiteId: string) => {
     let responseTime = 0;
     try {
         const response = await axios.get(website.url, {
-            timeout: 10000  ,
+            timeout: 10000,
         });
         statusCode = response.status;
         isUp = response.status === 200;
@@ -38,11 +39,11 @@ export const monitoringService = async (websiteId: string) => {
             statusCode = 0;
         }
         isUp = false;
-                console.log(
+        console.log(
             website.url,
             responseTime,
-
         )
+        sendEmailAlert(user.email, `Website ${website.url} is Down`, "Your WEBSITE is Down Now!!!")
     }
     try {
         const websiteLog = await WebsiteLog.create({

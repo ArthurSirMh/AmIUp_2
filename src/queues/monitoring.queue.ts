@@ -12,3 +12,9 @@ export const monitoringQueue = new Queue("monitoring", {
 export const sendTelegramAlertQueue = new Queue("sendTelegramAlertQueue", {
   connection,
 });
+export const sendEmailAlertQueue = new Queue("sendEmailAlertQueue", {
+  connection,
+});
+export const sendReportQueue = new Queue("sendReportQueue", {
+  connection,
+});

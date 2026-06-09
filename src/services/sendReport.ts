@@ -1,8 +1,10 @@
-import { bot } from "../services/telegram.service";
 import { getLog } from "../controllers/websiteLog.controller";
-import { error, log } from "node:console";
+import { WebsiteLog } from "../models/WebsiteLog"
+import { bot } from "./telegram.service";
 
-export const sendAlert = async (userId: string, chatId: string) => {
+
+
+export const sendReport = async (userId: string, chatId: string) => {
     const data = await getLog(userId)
     const logs = data?.data || [];
     if (logs.length === 0) {
@@ -16,7 +18,7 @@ export const sendAlert = async (userId: string, chatId: string) => {
                 `Website: ${log.website}\nLogs: ${JSON.stringify(log.logs, null, 2)}`
             );
         }
-        catch(err) { 
+        catch (err) {
             console.log(`error to sendReport  ${err}`)
         }
     }

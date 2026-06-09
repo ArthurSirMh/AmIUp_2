@@ -1,9 +1,9 @@
 import { Bot } from "grammy";
 import { User } from "../models/User"
 import { Website } from "../models/Website";
-import { createUser } from "../controllers/user.controller";
+import { createUser, EditUser } from "../controllers/user.controller";
 import { addUrl, deleteUrl } from "../controllers/web.controller";
-import { sendAlert } from "../job/sendReports";
+import { sendReport } from "../jobs/monitoring.job";
 export const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN!)
 
 bot.command("start", async (ctx) => {
@@ -20,7 +20,8 @@ bot.command("start", async (ctx) => {
 Help Menu:
 - Add a URL: addUrl_yourUrl
 - View website logs: showLogs
-- Delete a URL : deleteUrl_youUrl
+- Delete a URL : deleteUrl_yourUrl
+- Change Email : changeEmail_yourEmail
 `;
     await ctx.reply(helpMessage.trim());
   } catch (error) {
@@ -52,15 +53,23 @@ bot.on("message:text", async (ctx) => {
     await ctx.reply(res.message);
     return;
   }
+  // show Url
   else if (text.startsWith("showLogs")) {
-    await sendAlert(user.id, user.chatId)
+    await sendReport(user.id, chatId)
     return;
   }
+  // delete url
   else if (text.startsWith("deleteUrl_")) {
     const url = text.replace("deleteUrl_", "").trim()
     let res = await deleteUrl(url)
     await ctx.reply(`${res.message}\n
       ${url}`);
+    return;
+  }
+  else if (text.startsWith("changeEmail_")) {
+    const email = text.replace("changeEmail_", "").trim()
+    let res = await EditUser(user.id,email)
+    await ctx.reply(`${res.message}`);
     return;
   }
   await ctx.reply("Unrecognized input. Send a URL to add a website.");

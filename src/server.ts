@@ -2,14 +2,12 @@ import dotenv from "dotenv";
 dotenv.config();
 import cron from "node-cron";
 import { connectDB } from "./config/db";
-import { logger } from "./job/logger";
 connectDB()
 import { bot } from "./services/telegram.service";
 bot.start();
 import { monitoringJob } from "./jobs/monitoring.job";
 import "./workers/monitoring.worker";
-import { monitoringQueue } from "./queues/monitoring.queue";
-
+import { User } from "./models/User";
 // let jobCanWork = 1
 // let JobWork = 0
 // cron.schedule("*/30 * * * * *", async () => {
@@ -29,6 +27,12 @@ import { monitoringQueue } from "./queues/monitoring.queue";
 //         console.log("After finally, JobWork =", JobWork);
 //     }
 // });
-cron.schedule("*/10 * * * * *", async () => {
+// const getUsers = async () => {
+//   const users = await User.find();
+//   console.log(users); // ✅ آرایه‌ای از user‌ها
+// };
+
+// getUsers();
+cron.schedule("*/1 * * * *", async () => {
     await monitoringJob()
 })
